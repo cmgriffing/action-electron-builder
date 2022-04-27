@@ -97,7 +97,7 @@ const runAction = async () => {
 		const resolvedPackage = resolve(pkgJsonPath)
 		const packageJsonRaw = await fs.readFile(resolvedPackage, {encoding: "utf8"});
 		const packageJson = JSON.parse(packageJsonRaw);
-		packageJson.version = customTag.slice(1) + '-dev';
+		packageJson.version = customTag.slice(1);
 		await fs.writeFile(resolvedPackage, JSON.stringify(packageJson, null, 2));
 	}
 
