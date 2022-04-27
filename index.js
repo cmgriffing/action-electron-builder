@@ -1,6 +1,6 @@
 const { execSync } = require("child_process");
 const { existsSync, readFileSync } = require("fs");
-const { join } = require("path");
+const { resolve, join } = require("path");
 const fs = require("fs/promises");
 
 /**
@@ -94,7 +94,7 @@ const runAction = async () => {
 	log("CustomTag",  customTag);
 
 	if(customTag) {
-		const resolvedPackage = path.resolve(pkgJsonPath)
+		const resolvedPackage = resolve(pkgJsonPath)
 		const packageJsonRaw = await fs.readFile(resolvedPackage, {encoding: "utf8"});
 		const packageJson = JSON.parse(packageJsonRaw);
 		packageJson.version = customTag;
