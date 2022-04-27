@@ -1,6 +1,7 @@
 const { execSync } = require("child_process");
 const { existsSync, readFileSync } = require("fs");
 const { join } = require("path");
+const fs = require("fs/promises");
 
 /**
  * Logs to the console
@@ -63,7 +64,7 @@ const getInput = (name, required) => {
 /**
  * Installs NPM dependencies and builds/releases the Electron app
  */
-const runAction = () => {
+const runAction = async () => {
 	const platform = getPlatform();
 	const release = getInput("release", true) === "true";
 	const pkgRoot = getInput("package_root", true);
@@ -72,6 +73,7 @@ const runAction = () => {
 	const useVueCli = getInput("use_vue_cli") === "true";
 	const args = getInput("args") || "";
 	const maxAttempts = Number(getInput("max_attempts") || "1");
+	const customTag = getInput("custom_tag", false)
 
 	// TODO: Deprecated option, remove in v2.0. `electron-builder` always requires a `package.json` in
 	// the same directory as the Electron app, so the `package_root` option should be used instead
@@ -88,6 +90,16 @@ const runAction = () => {
 	if (!existsSync(pkgJsonPath)) {
 		exit(`\`package.json\` file not found at path "${pkgJsonPath}"`);
 	}
+
+	if(customTag) {
+		const resolvedPackage = path.resolve(pkgJsonPath)
+		const packageJsonRaw = await fs.readFile(resolvedPackage, {encoding: "utf8"});
+		const packageJson = JSON.parse(packageJsonRaw);
+		packageJson.version = customTag;
+		await fs.writeFile(resolvedPackage, JSON.stringify(packageJson, null, 2));
+	}
+
+
 
 	// Copy "github_token" input variable to "GH_TOKEN" env variable (required by `electron-builder`)
 	setEnv("GH_TOKEN", getInput("github_token", true));

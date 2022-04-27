@@ -77,6 +77,7 @@ You can configure the action further with the following options:
 - `use_vue_cli`: Whether to run `electron-builder` using the [Vue CLI plugin](https://nklayman.github.io/vue-cli-plugin-electron-builder) instead of calling the command directly
 - `args`: Other arguments to pass to the `electron-builder` command, e.g. configuration overrides (default: `""`)
 - `max_attempts`: Maximum number of attempts for completing the build and release step (default: `1`)
+- `custom_tag`: The custom version with which to tage the release. (optional)
 
 See [`action.yml`](./action.yml) for a list of all possible input variables.
 

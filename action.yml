@@ -46,6 +46,10 @@ inputs:
     description: Maximum number of attempts for completing the build and release step
     required: false
     default: "1"
+  custom_tag:
+    description: Custom tag with which to build release
+    required: false
+    default: ""
 
   # Deprecated
   app_root:
