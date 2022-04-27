@@ -91,6 +91,8 @@ const runAction = async () => {
 		exit(`\`package.json\` file not found at path "${pkgJsonPath}"`);
 	}
 
+	log("CustomTag",  customTag);
+
 	if(customTag) {
 		const resolvedPackage = path.resolve(pkgJsonPath)
 		const packageJsonRaw = await fs.readFile(resolvedPackage, {encoding: "utf8"});
